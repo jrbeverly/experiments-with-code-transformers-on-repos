@@ -1,0 +1,36 @@
+python3 --version
+Python 3.11.2
+
+--- initial reset ---
+python3 engine.py reset
+
+fixture checksums:
+41174262f05f5468b7c3fc80c1893c95  examples/tiny/main.py
+19683aec0d0241da780a48faf6ae0cb5  examples/tiny/notes.txt
+ed2b648989ecc89a80f5063da2ae1ba8  examples/tiny/utils.py
+
+workspace checksums (byte-identical):
+41174262f05f5468b7c3fc80c1893c95  .work/workspace/main.py
+19683aec0d0241da780a48faf6ae0cb5  .work/workspace/notes.txt
+ed2b648989ecc89a80f5063da2ae1ba8  .work/workspace/utils.py
+
+--- edit workspace copy ---
+(wrote modified main.py into .work/workspace/main.py)
+
+fixture unchanged:
+41174262f05f5468b7c3fc80c1893c95  examples/tiny/main.py
+
+workspace diverged:
+d90acb2e86f237d3a1a86f5303eec8fb  .work/workspace/main.py
+
+--- second reset ---
+python3 engine.py reset
+
+workspace restored to fixture:
+41174262f05f5468b7c3fc80c1893c95  .work/workspace/main.py
+
+.work/ layout after reset:
+.work/
+.work/cache/
+.work/trace/
+.work/workspace/

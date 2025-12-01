@@ -1,0 +1,24 @@
+$ python3 engine.py reset && python3 engine.py generate
+code-map: before=74234e98afe7 after=69a3f1c84c4c
+source-digest: before=74234e98afe7 after=bf7b49a53e34
+map-summary: before=74234e98afe7 after=5d1f2b4eae9d
+
+$ python3 engine.py generate
+code-map: before=69a3f1c84c4c after=69a3f1c84c4c
+source-digest: before=bf7b49a53e34 after=bf7b49a53e34
+map-summary: before=5d1f2b4eae9d after=5d1f2b4eae9d
+
+$ python3 engine.py verify_generators
+[1] code-map: before=74234e98afe7 after=69a3f1c84c4c
+[1] source-digest: before=74234e98afe7 after=bf7b49a53e34
+[1] map-summary: before=74234e98afe7 after=5d1f2b4eae9d
+[2] code-map: before=69a3f1c84c4c after=69a3f1c84c4c (unchanged)
+[2] source-digest: before=bf7b49a53e34 after=bf7b49a53e34 (unchanged)
+[2] map-summary: before=5d1f2b4eae9d after=5d1f2b4eae9d (unchanged)
+[2] all outputs identical on second generation
+[3] repair code-map: absent=74234e98afe7 repaired=69a3f1c84c4c bytes-match=True
+[4] extra src path:
+    code-map:      69a3f1c84c4c -> 64be13d207ea
+    source-digest: bf7b49a53e34 -> 79d80e8a2649
+    map-summary:   5d1f2b4eae9d -> 878587dae285
+all assertions passed

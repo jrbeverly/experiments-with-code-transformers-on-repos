@@ -1,0 +1,23 @@
+python3 --version
+Python 3.11.2
+
+--- verify (all acceptance criteria) ---
+[1] equivalent trees: id=363d20899d6a5969964eac8e8ae71a02c2c4a218bf2b9a05ef1d8528eea430c1
+[2] byte edit: paths=9b68a5b4d364 unchanged  content 4b48f3215445→8c04a700da03
+[3a] add path: paths 9b68a5b4d364→31927961c8ea  content 4b48f3215445→a2211849de55
+[3b] remove path: paths 9b68a5b4d364→45667a0027e6  content 4b48f3215445→4ce364f2a121
+[4] notes edit: id 363d20899d6a→353b0fe93e08  source slices unchanged
+[5] generated absent=74234e98afe7  present=5512930a64a8
+[6] no independent traversal: all observations read from _table built at __init__
+all assertions passed
+
+--- reset ---
+(clean)
+
+--- first run (adds codemap.json) ---
+before: 363d20899d6a5969964eac8e8ae71a02c2c4a218bf2b9a05ef1d8528eea430c1
+after:  f70e027402177e5e85267e3f3ecc62161a9649482acf1fce2e66218d3551e279
+
+--- second run (no mutation, workspace unchanged) ---
+before: f70e027402177e5e85267e3f3ecc62161a9649482acf1fce2e66218d3551e279
+after:  f70e027402177e5e85267e3f3ecc62161a9649482acf1fce2e66218d3551e279

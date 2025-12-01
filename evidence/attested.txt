@@ -1,0 +1,105 @@
+python3 --version
+Python 3.11.2
+
+--- fresh attest run (three executions) ---
+$ python3 engine.py reset && python3 engine.py attest
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=4d6685f0dcac  after=ee7b8a55bd14
+source-digest: run   reads=5df503f4010b output=bf7b49a53e34  before=ee7b8a55bd14  after=190c8b329c8f
+map-summary: run   reads=69a3f1c84c4c output=5d1f2b4eae9d  before=190c8b329c8f  after=ea2f9c2cbf4f
+
+--- second attest run, separate invocation (zero executions) ---
+$ python3 engine.py attest
+code-map: skip  reads=9eff651f22ab output=69a3f1c84c4c  attested_after=ee7b8a55bd14  current=ea2f9c2cbf4f
+source-digest: skip  reads=5df503f4010b output=bf7b49a53e34  attested_after=190c8b329c8f  current=ea2f9c2cbf4f
+map-summary: skip  reads=69a3f1c84c4c output=5d1f2b4eae9d  attested_after=ea2f9c2cbf4f  current=ea2f9c2cbf4f
+
+--- cache after two runs ---
+$ cat .work/cache/attestations.json
+[
+  {
+    "name": "code-map",
+    "version": 1,
+    "reads_fp": "9eff651f22ab221f612c114c8ac1cc97485fd4518a42b34a41b8f5e74a11f0a4",
+    "output_fp": "69a3f1c84c4c866951601dc9118ad118c94b522cb1491d2062105e38db3408b3",
+    "before_id": "4d6685f0dcac047896a63ff2e537d9ecc32d06cd0cdf54ed5626a6c903fb85d5",
+    "after_id": "ee7b8a55bd140ac7acf27b638c35bb06af0a70f4dbd31a24b1c11643229c6af6"
+  },
+  {
+    "name": "source-digest",
+    "version": 1,
+    "reads_fp": "5df503f4010b8c06f1d232c50fab0edfee6f9e2a81e1aa2a82a51d95ed6f47c7",
+    "output_fp": "bf7b49a53e3469d951f32117cf1ff105790a5acf79d0891da6c34498e8ebcde1",
+    "before_id": "ee7b8a55bd140ac7acf27b638c35bb06af0a70f4dbd31a24b1c11643229c6af6",
+    "after_id": "190c8b329c8fdb996f308e7f89665797613b20d503953074738137f01a28163f"
+  },
+  {
+    "name": "map-summary",
+    "version": 1,
+    "reads_fp": "69a3f1c84c4c866951601dc9118ad118c94b522cb1491d2062105e38db3408b3",
+    "output_fp": "5d1f2b4eae9d379d7b4fcb61d7b4a1a2865f4e6428d6db8cee1427654d5bb651",
+    "before_id": "190c8b329c8fdb996f308e7f89665797613b20d503953074738137f01a28163f",
+    "after_id": "ea2f9c2cbf4f714daf9cc648b3173c0b47a510b4c934edf19f926d42db60d494"
+  }
+]
+
+--- verify_attested (all acceptance criteria) ---
+$ python3 engine.py verify_attested
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=4d6685f0dcac  after=ee7b8a55bd14
+source-digest: run   reads=5df503f4010b output=bf7b49a53e34  before=ee7b8a55bd14  after=190c8b329c8f
+map-summary: run   reads=69a3f1c84c4c output=5d1f2b4eae9d  before=190c8b329c8f  after=ea2f9c2cbf4f
+[AC1a] fresh run: ['code-map', 'source-digest', 'map-summary']
+code-map: skip  reads=9eff651f22ab output=69a3f1c84c4c  attested_after=ee7b8a55bd14  current=ea2f9c2cbf4f
+source-digest: skip  reads=5df503f4010b output=bf7b49a53e34  attested_after=190c8b329c8f  current=ea2f9c2cbf4f
+map-summary: skip  reads=69a3f1c84c4c output=5d1f2b4eae9d  attested_after=ea2f9c2cbf4f  current=ea2f9c2cbf4f
+[AC1b] second run: []
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=4d6685f0dcac  after=ee7b8a55bd14
+source-digest: run   reads=5df503f4010b output=bf7b49a53e34  before=ee7b8a55bd14  after=190c8b329c8f
+map-summary: run   reads=69a3f1c84c4c output=5d1f2b4eae9d  before=190c8b329c8f  after=ea2f9c2cbf4f
+code-map: skip  reads=9eff651f22ab output=69a3f1c84c4c  attested_after=ee7b8a55bd14  current=951d09d09cdd
+source-digest: run   reads=a0043c7b03b0 output=d2fa909cf879  before=951d09d09cdd  after=1230dbaed637
+map-summary: skip  reads=69a3f1c84c4c output=5d1f2b4eae9d  attested_after=ea2f9c2cbf4f  current=1230dbaed637
+[AC2a] content change: ['source-digest']
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=4d6685f0dcac  after=ee7b8a55bd14
+source-digest: run   reads=5df503f4010b output=bf7b49a53e34  before=ee7b8a55bd14  after=190c8b329c8f
+map-summary: run   reads=69a3f1c84c4c output=5d1f2b4eae9d  before=190c8b329c8f  after=ea2f9c2cbf4f
+code-map: skip  reads=9eff651f22ab output=69a3f1c84c4c  attested_after=ee7b8a55bd14  current=842f7b0f7a13
+source-digest: skip  reads=5df503f4010b output=bf7b49a53e34  attested_after=190c8b329c8f  current=842f7b0f7a13
+map-summary: skip  reads=69a3f1c84c4c output=5d1f2b4eae9d  attested_after=ea2f9c2cbf4f  current=842f7b0f7a13
+[AC2b] unrelated edit: []
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=4d6685f0dcac  after=ee7b8a55bd14
+source-digest: run   reads=5df503f4010b output=bf7b49a53e34  before=ee7b8a55bd14  after=190c8b329c8f
+map-summary: run   reads=69a3f1c84c4c output=5d1f2b4eae9d  before=190c8b329c8f  after=ea2f9c2cbf4f
+code-map: run   reads=66516ba28e08 output=64be13d207ea  before=4917086a9951  after=8d9bac1c70f2
+source-digest: run   reads=5d98b94a69f1 output=79d80e8a2649  before=8d9bac1c70f2  after=bef58d7fd669
+map-summary: run   reads=64be13d207ea output=878587dae285  before=bef58d7fd669  after=cecce7b010df
+[AC3] path addition: ['code-map', 'source-digest', 'map-summary']
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=4d6685f0dcac  after=ee7b8a55bd14
+source-digest: run   reads=5df503f4010b output=bf7b49a53e34  before=ee7b8a55bd14  after=190c8b329c8f
+map-summary: run   reads=69a3f1c84c4c output=5d1f2b4eae9d  before=190c8b329c8f  after=ea2f9c2cbf4f
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=136530947407  after=ea2f9c2cbf4f
+source-digest: skip  reads=5df503f4010b output=bf7b49a53e34  attested_after=190c8b329c8f  current=ea2f9c2cbf4f
+map-summary: skip  reads=69a3f1c84c4c output=5d1f2b4eae9d  attested_after=ea2f9c2cbf4f  current=ea2f9c2cbf4f
+[AC4] output absent: ['code-map']
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=4d6685f0dcac  after=ee7b8a55bd14
+source-digest: run   reads=5df503f4010b output=bf7b49a53e34  before=ee7b8a55bd14  after=190c8b329c8f
+map-summary: run   reads=69a3f1c84c4c output=5d1f2b4eae9d  before=190c8b329c8f  after=ea2f9c2cbf4f
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=66e4e03804ba  after=ea2f9c2cbf4f
+source-digest: skip  reads=5df503f4010b output=bf7b49a53e34  attested_after=190c8b329c8f  current=ea2f9c2cbf4f
+map-summary: skip  reads=69a3f1c84c4c output=5d1f2b4eae9d  attested_after=ea2f9c2cbf4f  current=ea2f9c2cbf4f
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=6a2ca2702cd7  after=ea2f9c2cbf4f
+source-digest: skip  reads=5df503f4010b output=bf7b49a53e34  attested_after=190c8b329c8f  current=ea2f9c2cbf4f
+map-summary: skip  reads=69a3f1c84c4c output=5d1f2b4eae9d  attested_after=ea2f9c2cbf4f  current=ea2f9c2cbf4f
+[AC5] restored bytes, summary skipped: ['code-map']
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=4d6685f0dcac  after=ee7b8a55bd14
+source-digest: run   reads=5df503f4010b output=bf7b49a53e34  before=ee7b8a55bd14  after=190c8b329c8f
+map-summary: run   reads=69a3f1c84c4c output=5d1f2b4eae9d  before=190c8b329c8f  after=ea2f9c2cbf4f
+code-map: skip  reads=9eff651f22ab output=69a3f1c84c4c  attested_after=ee7b8a55bd14  current=ea2f9c2cbf4f
+source-digest: run   reads=5df503f4010b output=bf7b49a53e34  before=ea2f9c2cbf4f  after=ea2f9c2cbf4f
+map-summary: skip  reads=69a3f1c84c4c output=5d1f2b4eae9d  attested_after=ea2f9c2cbf4f  current=ea2f9c2cbf4f
+[AC6] version bump: ['source-digest']
+code-map: run   reads=9eff651f22ab output=69a3f1c84c4c  before=4d6685f0dcac  after=ee7b8a55bd14
+source-digest: run   reads=5df503f4010b output=bf7b49a53e34  before=ee7b8a55bd14  after=190c8b329c8f
+map-summary: run   reads=69a3f1c84c4c output=5d1f2b4eae9d  before=190c8b329c8f  after=ea2f9c2cbf4f
+code-map: FAIL  injected failure
+[AC7] failed execution: [] entries added
+all assertions passed
